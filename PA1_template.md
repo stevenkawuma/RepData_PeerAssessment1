@@ -119,6 +119,40 @@ new_activity_df <- activity_df %>%
   mutate(steps = ifelse(is.na(steps) == TRUE, 
                         get_interval_mean(interval), steps))
 ```
+
+4. Histogram of the total number of steps taken each day  
+
+```r
+new_steps_per_day_df <- new_activity_df %>% 
+  group_by(date) %>%
+  filter(is.na(steps) == FALSE) %>%
+  summarise(No.Of.Steps=sum(steps))
+
+ggplot(new_steps_per_day_df, aes(No.Of.Steps)) +
+  geom_histogram(bins = 30, na.rm = TRUE)
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
+- The mean is: 
+
+```r
+mean(new_steps_per_day_df$No.Of.Steps)
+```
+
+```
+## [1] 10766.19
+```
+- The median is:
+
+```r
+median(new_steps_per_day_df$No.Of.Steps)
+```
+
+```
+## [1] 10766.19
+```
+
 ## Are there differences in activity patterns between weekdays and weekends?
 
 1. Creating a new factor variable indicating whether a given date is a weekday or weekend day.  
@@ -141,4 +175,4 @@ ggplot(df2,  aes(x = interval, y = average_steps, group=day_type)) +
   facet_grid(day_type ~ .)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
